@@ -1,0 +1,104 @@
+﻿@model List<Country>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<link href="~/css/chosen.min.css" rel="stylesheet" />
+
+<select id="Countries" name="CountryId">
+    <option value="">Select Country</option>
+    @foreach (var country in Model)
+    {
+        <option value="@country.CountryId">@country.CountryName</option>
+    }
+</select>
+
+<select id="States" name="StateId">
+    <option value="">Select State</option>
+</select>
+
+<select id="Cities" style="width:350px;" name="CityId" multiple class="chosen-select">
+    <option value="">Select City</option>
+</select>
+
+
+<!-- jQuery -->
+@section scripts {
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/chosen.jquery.min.js"></script>
+
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#Countries').change(function () {
+                $('#Cities').empty();
+             
+                var countryId = $(this).val();
+                $.getJSON('@Url.Action("GetStates")', { countryId: countryId }, function (states) {
+                    var statesSelect = $('#States');
+                    statesSelect.empty();
+                    $.each(states, function (index, state) {
+                        statesSelect.append($('<option/>', {
+                            value: state.value,
+                            text: state.text
+                        }));
+                    });
+
+                    $("#States").trigger("chosen:updated");
+                });
+            });
+
+            $('#States').change(function () {
+             
+                
+                var stateId = $(this).val();
+                $.getJSON('@Url.Action("GetCities")', { stateId: stateId }, function (cities) {
+              
+                    $('#Cities').empty();
+                   
+                    $.each(cities, function (index, city) {
+                        $('#Cities').append($('<option/>', {
+                            value: city.value,
+                            text: city.text
+                        }));
+                    });
+                    $("#Cities").trigger("chosen:updated");
+                 
+                });
+            });
+
+
+           
+        });
+    </script>
+
+    <script>
+        $(function () {
+        
+            $("#Countries").chosen({
+               
+            });
+            $("#States").chosen();
+          
+            $("#Cities").chosen();
+           
+
+        });
+       
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+}
