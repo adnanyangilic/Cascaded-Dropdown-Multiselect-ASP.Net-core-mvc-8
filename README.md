@@ -1,1 +1,1 @@
-# CountriesDB3
+CountryDB sql file is in wwwroot folder. Model files and ApplicationDbContext file is prepared for CountryDB sql file so you can upload it into your sql server database and use it without modification. Multiselect feature is provided by chosen.jquery.js plugin.
