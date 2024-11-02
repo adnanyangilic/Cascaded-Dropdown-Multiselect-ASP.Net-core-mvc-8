@@ -32,6 +32,7 @@
             var values = [];
 
             $('#Countries').change(function () {
+                values= [];
                 $('#Cities').empty();
              
                 var countryId = $(this).val();
@@ -50,8 +51,8 @@
             });
 
             $('#States').change(function () {
-             
-                
+
+                values = [];
                 var stateId = $(this).val();
                 $.getJSON('@Url.Action("GetCities")', { stateId: stateId }, function (cities) {
               
