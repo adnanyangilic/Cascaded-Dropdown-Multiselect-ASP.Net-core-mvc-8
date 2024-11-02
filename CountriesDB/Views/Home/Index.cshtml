@@ -1,4 +1,4 @@
-﻿@model List<Country>
+@model List<Country>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -20,15 +20,17 @@
     <option value="">Select City</option>
 </select>
 
-
+<input id="submit" type="submit" name="submit" value="submit"/>
 <!-- jQuery -->
 @section scripts {
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/chosen.jquery.min.js"></script>
-
     <script>
         $(document).ready(function () {
+
+            var values = [];
+
             $('#Countries').change(function () {
                 $('#Cities').empty();
              
@@ -65,18 +67,45 @@
                  
                 });
             });
+
+            $(function () {
+
+                $("#Countries").chosen({
+
+                });
+                $("#States").chosen();
+
+                $("#Cities").chosen();
+
+
+            });
+
+
+          
+            $('#Cities').on('change', function () {
+
+                var selectedOptions = $(this).find('option:selected');
+
+                selectedOptions.each(function () {
+
+                    values.push($(this).text());
+
+                });
+
+
+
+            });
+
+            $('#submit').on('click', function () {
+
+                const unique = arr => [...new Set(arr)];
+
+                alert(unique(values));
+
+            });
+
            
         });
     </script>
 
-    <script>
-        $(function () {
-        
-            $("#Countries").chosen({ });
-            $("#States").chosen();
-          
-            $("#Cities").chosen();
-        });
-       
-    </script>
 }
